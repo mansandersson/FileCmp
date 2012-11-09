@@ -1,0 +1,15 @@
+﻿<Window x:Class="FileCmp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="FileCmp"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        AllowDrop="True"
+        DragEnter="MainWindow_DragEnter"
+        Drop="MainWindow_Drop">
+    <Grid x:Name="RootGrid" MinHeight="100" MinWidth="320">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+    </Grid>
+</Window>
