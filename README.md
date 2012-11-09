@@ -1,14 +1,15 @@
 # FileCmp - quick and easy file comparison for windows
 
 * Drag and drop files into the ui and FileCmp calculates the md5sum of the file and displays it.
-* Copy the md5sum to clipboard by clicking on the file row.
+* Copy the md5sum to clipboard by clicking on the Copy button.
+* Remove the file from the ui by clicking on the Remove button.
 * Drop multiple files and see which ones are identical by hovering over the file rows
 
 ## To-Do / Known bugs
 
 * Better code documentation
-* Remove file from ui
-* Some response when copying md5sum to clipboard
+* A default platter to display when no file is present
+* Drag-and-drop md5sum files and text strings
 
 ## License
 

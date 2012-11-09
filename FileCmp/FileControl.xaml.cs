@@ -40,6 +40,7 @@ namespace FileCmp
             }
         }
         public Action<string> MouseOver { get; set; }
+        public Action<FileControl> RemoveItem { get; set; }
 
         public FileControl()
         {
@@ -54,11 +55,6 @@ namespace FileCmp
                 this.Background = new SolidColorBrush(Colors.Transparent);
         }
 
-        private void FileControl_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            System.Windows.Clipboard.SetText(this.LblHash.Content.ToString(), System.Windows.TextDataFormat.Text);
-        }
-
         private void FileControl_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             MouseOver(this.LblHash.Content.ToString());
@@ -67,6 +63,16 @@ namespace FileCmp
         private void FileControl_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             MouseOver("");
+        }
+
+        private void BtnCopy_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            System.Windows.Clipboard.SetText(this.LblHash.Content.ToString(), System.Windows.TextDataFormat.Text);
+        }
+
+        private void BtnRemove_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            RemoveItem(this);
         }
     }
 }

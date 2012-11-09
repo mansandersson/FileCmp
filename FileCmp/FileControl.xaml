@@ -6,23 +6,28 @@
              mc:Ignorable="d" 
              d:DesignHeight="100"
              d:DesignWidth="320"
-             MouseUp="FileControl_MouseUp"
              MouseEnter="FileControl_MouseEnter"
              MouseLeave="FileControl_MouseLeave">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15" />
             <ColumnDefinition Width="85" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="15" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="15" />
-            <RowDefinition Height="30" />
-            <RowDefinition Height="40" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="20" />
             <RowDefinition Height="15" />
         </Grid.RowDefinitions>
-        <Image Name="ImgFileIcon" Height="70" Width="70" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" />
-        <Label Name="LblFileName" Content="MyFile.doc" Grid.Column="2" Grid.Row="1" />
-        <Label Name="LblHash" Content="n/a" Grid.Column="2" Grid.Row="2" />
+        <Image Name="ImgFileIcon" Height="70" Width="70" Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" />
+        <Label Name="LblFileName" Content="MyFile.doc" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" />
+        <Label Name="LblHash" Content="n/a" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="4" />
+        <Button Name="BtnCopy" Content="Copy" Width="100" Click="BtnCopy_Click" Grid.Column="2" Grid.Row="3" />
+        <Button Name="BtnRemove" Content="Remove" Width="100" Click="BtnRemove_Click" Grid.Column="4" Grid.Row="3" />
     </Grid>
 </UserControl>

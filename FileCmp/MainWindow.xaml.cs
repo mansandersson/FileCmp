@@ -43,6 +43,7 @@ namespace FileCmp
                 FileControl newFileControl = new FileControl();
                 newFileControl.FileItem = fileItem;
                 newFileControl.MouseOver = MainWindow_MouseOver;
+                newFileControl.RemoveItem = RemoveItem;
 
                 this.RootGrid.Children.Add(newFileControl);
                 if (_numberOfItems > 0)
@@ -70,6 +71,28 @@ namespace FileCmp
                     ((FileControl)elm).Highlight(hash);
                 }
             }
+        }
+
+        private void RemoveItem(FileControl item)
+        {
+            Int32 rowIndex = Grid.GetRow(item);
+            this.RootGrid.Children.Remove(item);
+            foreach (UIElement elm in this.RootGrid.Children)
+            {
+                Int32 elmRowIndex = Grid.GetRow(elm);
+                if (elmRowIndex > rowIndex)
+                {
+                    Grid.SetRow(elm, elmRowIndex - 1);
+                }
+            }
+            if (this.RootGrid.RowDefinitions.Count > 1)
+                this.RootGrid.RowDefinitions.RemoveAt(this.RootGrid.RowDefinitions.Count - 1);
+            /*
+            if (this.RootGrid.RowDefinitions.Count > 1)
+            {
+                this.RootGrid.RowDefinitions.RemoveAt(rowIndex);
+            }*/
+            _numberOfItems--;
         }
     }
 }
