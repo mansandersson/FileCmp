@@ -87,11 +87,6 @@ namespace FileCmp
             }
             if (this.RootGrid.RowDefinitions.Count > 1)
                 this.RootGrid.RowDefinitions.RemoveAt(this.RootGrid.RowDefinitions.Count - 1);
-            /*
-            if (this.RootGrid.RowDefinitions.Count > 1)
-            {
-                this.RootGrid.RowDefinitions.RemoveAt(rowIndex);
-            }*/
             _numberOfItems--;
         }
     }
