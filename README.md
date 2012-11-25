@@ -8,7 +8,6 @@
 ## To-Do / Known bugs
 
 * Better code documentation
-* A default platter to display when no file is present
 * Drag-and-drop md5sum files and text strings
 
 ## License
