@@ -55,6 +55,11 @@ namespace FileCmp
                 this.Background = new SolidColorBrush(Colors.Transparent);
         }
 
+        public void Refresh()
+        {
+            this.LblHash.Content = FileItem.Hash;
+        }
+
         private void FileControl_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             MouseOver(this.LblHash.Content.ToString());

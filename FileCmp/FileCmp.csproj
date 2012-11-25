@@ -70,6 +70,7 @@
       <DependentUpon>FileControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="FileItem.cs" />
+    <Compile Include="HashAlgorithms.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

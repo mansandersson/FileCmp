@@ -49,17 +49,46 @@ namespace FileCmp
             }
         }
         public string Hash { get; private set; }
+        private HashAlgorithms _hashAlgorithm = HashAlgorithms.UNKNOWN;
+        public HashAlgorithms HashAlgorithm
+        {
+            get { return _hashAlgorithm; }
+            set
+            {
+                if (_hashAlgorithm != value)
+                {
+                    Hash = CalcHash(FilePath, value);
+                    _hashAlgorithm = value;
+                }
+            }
+        }
 
         public FileItem(string path)
         {
             FilePath = path;
-
-            Hash = Md5sum(path);
+            HashAlgorithm = HashAlgorithms.MD5;
+        }
+        public FileItem(string path, HashAlgorithms algorithm)
+        {
+            FilePath = path;
+            HashAlgorithm = algorithm;
         }
 
-        private string Md5sum(string path)
+        private string CalcHash(string path, HashAlgorithms algorithm)
         {
-            System.Security.Cryptography.MD5CryptoServiceProvider cryptoProvider = new System.Security.Cryptography.MD5CryptoServiceProvider();
+            System.Security.Cryptography.HashAlgorithm cryptoProvider = null;
+            switch (algorithm)
+            {
+                default:
+                    return String.Empty;
+                case HashAlgorithms.MD5:
+                    cryptoProvider = new System.Security.Cryptography.MD5CryptoServiceProvider();
+                    break;
+                case HashAlgorithms.SHA1:
+                    cryptoProvider = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+                    break;
+            }
+
             using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 byte[] result = cryptoProvider.ComputeHash(stream);

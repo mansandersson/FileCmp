@@ -6,10 +6,19 @@
         ResizeMode="NoResize"
         AllowDrop="True"
         DragEnter="MainWindow_DragEnter"
-        Drop="MainWindow_Drop">
+        Drop="MainWindow_Drop"
+        MouseRightButtonUp="MainWindow_MouseRightButtonUp">
     <Grid x:Name="RootGrid" MinHeight="100" MinWidth="320">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
+        <Grid Name="boxDropHere">
+            <Rectangle StrokeDashArray="1.0 0.7" Margin="10,10,10,10" Height="80" Stroke="Black" StrokeThickness="5" RadiusX="15" RadiusY="15" />
+            <Grid Margin="2 2 2 2">
+                <TextBlock Width="Auto" Height="Auto" FontWeight="Bold" FontSize="17" Padding="5,5,5,5" Opacity="1" FontStyle="Italic" HorizontalAlignment="Center" Margin="0,33,0,33" RenderTransformOrigin="0.497,-0.3" >
+                    Drag your items here
+                </TextBlock>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

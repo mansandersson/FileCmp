@@ -11,7 +11,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15" />
-            <ColumnDefinition Width="85" />
+            <ColumnDefinition Width="45" />
             <ColumnDefinition Width="100" />
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="100" />
@@ -24,7 +24,7 @@
             <RowDefinition Height="20" />
             <RowDefinition Height="15" />
         </Grid.RowDefinitions>
-        <Image Name="ImgFileIcon" Height="70" Width="70" Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" />
+        <Image Name="ImgFileIcon" Height="40" Width="40" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" />
         <Label Name="LblFileName" Content="MyFile.doc" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" />
         <Label Name="LblHash" Content="n/a" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="4" />
         <Button Name="BtnCopy" Content="Copy" Width="100" Click="BtnCopy_Click" Grid.Column="2" Grid.Row="3" />

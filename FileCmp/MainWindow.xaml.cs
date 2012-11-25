@@ -25,6 +25,7 @@ namespace FileCmp
     public partial class MainWindow : Window
     {
         private Int32 _numberOfItems = 0;
+        private HashAlgorithms _currentAlgorithm = HashAlgorithms.MD5;
 
         public MainWindow()
         {
@@ -38,7 +39,7 @@ namespace FileCmp
             // Do something with the data...
             foreach (string file in fileList)
             {
-                FileItem fileItem = new FileItem(file);
+                FileItem fileItem = new FileItem(file, _currentAlgorithm);
                 Console.WriteLine(fileItem.Hash);
                 FileControl newFileControl = new FileControl();
                 newFileControl.FileItem = fileItem;
@@ -51,6 +52,7 @@ namespace FileCmp
                     this.RootGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(100) });
                 }
                 Grid.SetRow(newFileControl, _numberOfItems++);
+                boxDropHere.Visibility = Visibility.Hidden;
             }
         }
 
@@ -88,6 +90,57 @@ namespace FileCmp
             if (this.RootGrid.RowDefinitions.Count > 1)
                 this.RootGrid.RowDefinitions.RemoveAt(this.RootGrid.RowDefinitions.Count - 1);
             _numberOfItems--;
+
+            if (_numberOfItems == 0)
+                boxDropHere.Visibility = Visibility.Visible;
+        }
+
+        private void MainWindow_MouseRightButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ContextMenu menu = new ContextMenu();
+
+            // md5sum menu item
+            MenuItem md5sum = new MenuItem();
+            md5sum.Header = "md5sum";
+            if (_currentAlgorithm == HashAlgorithms.MD5)
+                md5sum.FontWeight = FontWeights.Bold;
+            md5sum.Click += md5sum_Click;
+            menu.Items.Add(md5sum);
+
+            // sha1sum menu item
+            MenuItem sha1sum = new MenuItem();
+            sha1sum.Header = "sha1sum";
+            if (_currentAlgorithm == HashAlgorithms.SHA1)
+                sha1sum.FontWeight = FontWeights.Bold;
+            sha1sum.Click += sha1sum_Click;
+            menu.Items.Add(sha1sum);
+
+            menu.IsOpen = true;
+        }
+
+        private void sha1sum_Click(object sender, RoutedEventArgs e)
+        {
+            _currentAlgorithm = HashAlgorithms.SHA1;
+            RecalculateHash();
+        }
+
+        private void md5sum_Click(object sender, RoutedEventArgs e)
+        {
+            _currentAlgorithm = HashAlgorithms.MD5;
+            RecalculateHash();
+        }
+
+        private void RecalculateHash()
+        {
+            foreach (UIElement elm in this.RootGrid.Children)
+            {
+                if (elm is FileControl)
+                {
+                    FileControl fc = (FileControl)elm;
+                    fc.FileItem.HashAlgorithm = _currentAlgorithm;
+                    fc.Refresh();
+                }
+            }
         }
     }
 }
