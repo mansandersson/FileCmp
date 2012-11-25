@@ -24,17 +24,17 @@ namespace FileCmp
     /// </summary>
     public partial class FileControl : UserControl
     {
-        private FileItem _fileItem;
-        public FileItem FileItem
+        private IHashItem _hashItem;
+        public IHashItem HashItem
         {
             get
             {
-                return _fileItem;
+                return _hashItem;
             }
             set
             {
-                _fileItem = value;
-                this.LblFileName.Content = value.FileName;
+                _hashItem = value;
+                this.LblFileName.Content = value.Content;
                 this.LblHash.Content = value.Hash;
                 this.ImgFileIcon.Source = value.Icon;
             }
@@ -57,7 +57,7 @@ namespace FileCmp
 
         public void Refresh()
         {
-            this.LblHash.Content = FileItem.Hash;
+            this.LblHash.Content = HashItem.Hash;
         }
 
         private void FileControl_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)

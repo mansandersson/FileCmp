@@ -1,14 +1,16 @@
 # FileCmp - quick and easy file comparison for windows
 
-* Drag and drop files into the ui and FileCmp calculates the md5sum of the file and displays it.
-* Copy the md5sum to clipboard by clicking on the Copy button.
+* Drag and drop files into the ui and FileCmp calculates the md5sum/sha1sum of the file and displays it.
+* Drag and drop any md5sum/sha1sum text string into the ui to add it.
+* Copy the md5sum/sha1sum to clipboard by clicking on the Copy button.
 * Remove the file from the ui by clicking on the Remove button.
-* Drop multiple files and see which ones are identical by hovering over the file rows
+* Drop multiple files and hash strings and see which ones are identical by hovering over the file rows.
+* Right click anywhere in the ui to change between md5sum and sha1sum.
 
 ## To-Do / Known bugs
 
 * Better code documentation
-* Drag-and-drop md5sum files and text strings
+* Drag-and-drop md5sum/sha1sum files
 
 ## License
 

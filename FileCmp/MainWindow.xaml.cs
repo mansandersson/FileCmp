@@ -14,6 +14,7 @@
     OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -32,33 +33,73 @@ namespace FileCmp
             InitializeComponent();
         }
 
+        private void AddHashItem(IHashItem item)
+        {
+            FileControl newFileControl = new FileControl();
+            newFileControl.HashItem = item;
+            newFileControl.MouseOver = MainWindow_MouseOver;
+            newFileControl.RemoveItem = RemoveItem;
+
+            this.RootGrid.Children.Add(newFileControl);
+            if (_numberOfItems > 0)
+            {
+                this.RootGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(100) });
+            }
+            Grid.SetRow(newFileControl, _numberOfItems++);
+            boxDropHere.Visibility = Visibility.Hidden;
+        }
+
+        private HashAlgorithms RecognizeHashType(string text)
+        {
+            if (String.IsNullOrWhiteSpace(text))
+                return HashAlgorithms.UNKNOWN;
+
+            text = text.Trim();
+
+            if (Regex.IsMatch(text, @"^[0-9A-Fa-f]{32}$"))
+                return HashAlgorithms.MD5;
+
+            if (Regex.IsMatch(text, @"^[0-9A-Fa-f]{40}$"))
+                return HashAlgorithms.SHA1;
+
+            return HashAlgorithms.UNKNOWN;
+        }
+
         private void MainWindow_Drop(object sender, DragEventArgs e)
         {
+            // Handle file drop
             string[] fileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-
-            // Do something with the data...
-            foreach (string file in fileList)
+            if (fileList != null)
             {
-                FileItem fileItem = new FileItem(file, _currentAlgorithm);
-                Console.WriteLine(fileItem.Hash);
-                FileControl newFileControl = new FileControl();
-                newFileControl.FileItem = fileItem;
-                newFileControl.MouseOver = MainWindow_MouseOver;
-                newFileControl.RemoveItem = RemoveItem;
-
-                this.RootGrid.Children.Add(newFileControl);
-                if (_numberOfItems > 0)
+                foreach (string file in fileList)
                 {
-                    this.RootGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(100) });
+                    FileItem fileItem = new FileItem(file, _currentAlgorithm);
+                    AddHashItem(fileItem);
                 }
-                Grid.SetRow(newFileControl, _numberOfItems++);
-                boxDropHere.Visibility = Visibility.Hidden;
+            }
+
+            // Handle text drop
+            string text = (string)e.Data.GetData(DataFormats.Text, false);
+            if (text != null)
+            {
+                HashAlgorithms algorithm = RecognizeHashType(text);
+                if (algorithm == HashAlgorithms.UNKNOWN)
+                {
+                    TextItem textItem = new TextItem(text, _currentAlgorithm);
+                    AddHashItem(textItem);
+                }
+                else
+                {
+                    PreComputedHashItem hashItem = new PreComputedHashItem(text.Trim(), algorithm);
+                    AddHashItem(hashItem);
+                }
             }
         }
 
         private void MainWindow_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (e.Data.GetDataPresent(DataFormats.FileDrop) ||
+                e.Data.GetDataPresent(DataFormats.Text))
                 e.Effects = DragDropEffects.Copy;
             else
                 e.Effects = DragDropEffects.None;
@@ -137,7 +178,7 @@ namespace FileCmp
                 if (elm is FileControl)
                 {
                     FileControl fc = (FileControl)elm;
-                    fc.FileItem.HashAlgorithm = _currentAlgorithm;
+                    fc.HashItem.HashAlgorithm = _currentAlgorithm;
                     fc.Refresh();
                 }
             }

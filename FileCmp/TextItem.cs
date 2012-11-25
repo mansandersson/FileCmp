@@ -21,33 +21,11 @@ using System.Windows.Media.Imaging;
 
 namespace FileCmp
 {
-    public class FileItem : IHashItem
+    public class TextItem : IHashItem
     {
-        public BitmapImage Icon
-        {
-            get
-            {
-                if (FilePath == null)
-                    return null;
-
-                Bitmap iconBitmap = System.Drawing.Icon.ExtractAssociatedIcon(FilePath).ToBitmap();
-                MemoryStream iconStream = new MemoryStream();
-                iconBitmap.Save(iconStream, ImageFormat.Png);
-                BitmapImage iconImage = new BitmapImage();
-                iconImage.BeginInit();
-                iconImage.StreamSource = iconStream;
-                iconImage.EndInit();
-                return iconImage;
-            }
-        }
-        public string FilePath { get; private set; }
-        public string Content
-        {
-            get
-            {
-                return Path.GetFileName(FilePath);
-            }
-        }
+        public BitmapImage Icon { get { return null; } }
+        public string TextString { get; private set; }
+        public string Content { get { return TextString; } }
         public string Hash { get; private set; }
         private HashAlgorithms _hashAlgorithm = HashAlgorithms.UNKNOWN;
         public HashAlgorithms HashAlgorithm
@@ -57,24 +35,24 @@ namespace FileCmp
             {
                 if (_hashAlgorithm != value)
                 {
-                    Hash = CalcHash(FilePath, value);
+                    Hash = CalcHash(TextString, value);
                     _hashAlgorithm = value;
                 }
             }
         }
 
-        public FileItem(string path)
+        public TextItem(string text)
         {
-            FilePath = path;
+            TextString = text;
             HashAlgorithm = HashAlgorithms.MD5;
         }
-        public FileItem(string path, HashAlgorithms algorithm)
+        public TextItem(string text, HashAlgorithms algorithm)
         {
-            FilePath = path;
+            TextString = text;
             HashAlgorithm = algorithm;
         }
 
-        public static string CalcHash(string path, HashAlgorithms algorithm)
+        public static string CalcHash(string text, HashAlgorithms algorithm)
         {
             System.Security.Cryptography.HashAlgorithm cryptoProvider = null;
             switch (algorithm)
@@ -89,11 +67,8 @@ namespace FileCmp
                     break;
             }
 
-            using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                byte[] result = cryptoProvider.ComputeHash(stream);
-                return BitConverter.ToString(result).Replace("-", "").ToLower();
-            }
+            byte[] result = cryptoProvider.ComputeHash(System.Text.UTF8Encoding.UTF8.GetBytes(text));
+            return BitConverter.ToString(result).Replace("-", "").ToLower();
         }
     }
 }
